@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6-Hour DSA & C++ Zero-to-Hero Mastery Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glow-effect:hover {
+      box-shadow: 0 0 20px -5px rgba(99, 102, 241, 0.35);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen antialiased selection:bg-indigo-500 selection:text-white">
+
+  <header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 font-mono font-bold text-white text-lg">
+          C++
+        </div>
+        <div>
+          <h1 class="text-base font-bold text-slate-100 tracking-tight flex items-center gap-2">
+            6-Hour DSA Sprint
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Zero to Deep</span>
+          </h1>
+          <p id="headerSubtitle" class="text-xs text-slate-400">Loading roadmap…</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <!-- Timer Quick View Button -->
+        <button id="toggleTimerBtn" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-600 text-xs font-medium text-slate-300 transition-all">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span id="headerTimerDisplay" class="font-mono text-indigo-300">Block Timer</span>
+        </button>
+
+        <!-- Export/Import Buttons -->
+        <button id="exportBtn" title="Export Progress as JSON" class="p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+        </button>
+
+        <label title="Import Saved Progress" class="cursor-pointer p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">
+          <input type="file" id="importFileInput" accept=".json" class="hidden">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        </label>
+
+        <button id="resetProgressBtn" title="Reset All Progress" class="p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-rose-800 text-slate-400 hover:text-rose-400 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/20 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+      <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+            Daily 6-Hour Execution Protocol
+          </span>
+          <h2 class="text-lg font-bold text-white mt-1">High-Retention 3-Block Architecture</h2>
+        </div>
+        <div class="text-xs text-slate-400 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800 w-fit">
+          Recommended Schedule: Morning 2h + Midday 2.5h + Evening 1.5h
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <!-- Block 1 -->
+        <div class="bg-slate-950/70 border border-slate-800/80 rounded-xl p-3.5 flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center shrink-0 text-sky-400 font-mono font-bold text-xs">
+            B1
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-xs font-bold text-slate-200">Block 1: Theory & C++ Idioms</h3>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400">2.0 Hours</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Conceptual proofs, memory model, STL internal mechanics, and dry runs with pen & paper before any coding.
+            </p>
+          </div>
+        </div>
+
+        <!-- Block 2 -->
+        <div class="bg-slate-950/70 border border-slate-800/80 rounded-xl p-3.5 flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0 text-indigo-400 font-mono font-bold text-xs">
+            B2
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-xs font-bold text-slate-200">Block 2: Hard Problem Grinding</h3>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400">2.5 Hours</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Active solving on LeetCode/Codeforces. 25-minute rule: attempt with no hints; code clean, edge-case tested solutions.
+            </p>
+          </div>
+        </div>
+
+        <!-- Block 3 -->
+        <div class="bg-slate-950/70 border border-slate-800/80 rounded-xl p-3.5 flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400 font-mono font-bold text-xs">
+            B3
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-xs font-bold text-slate-200">Block 3: Analysis & Spaced Repetition</h3>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">1.5 Hours</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Log mistakes, analyze editorial alternative approaches, update personal C++ pattern cheat sheet, and flashcard review.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    
+    <!-- Top Stats Row -->
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <!-- Total Progress Card -->
+      <div class="glass-panel p-4 rounded-xl relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-400">Mastery Progress</span>
+          <span id="progressPercentage" class="text-xs font-mono font-bold text-indigo-400">0%</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="completedDaysCount" class="text-2xl font-bold font-mono text-white">0</span>
+          <span class="text-xs text-slate-400">/ <span id="totalDaysLabel">0</span> Days</span>
+        </div>
+        <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
+          <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Hours Logged -->
+      <div class="glass-panel p-4 rounded-xl">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-400">Hours Invested</span>
+          <span class="text-[10px] font-mono uppercase text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">6h/day</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="totalHoursLogged" class="text-2xl font-bold font-mono text-emerald-400">0</span>
+          <span class="text-xs text-slate-400">/ <span id="totalHoursLabel">0</span> Total Hrs</span>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-2">Progress auto-saves in this browser</p>
+      </div>
+
+      <!-- Problems Target -->
+      <div class="glass-panel p-4 rounded-xl">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-400">Core Problems Solved</span>
+          <span class="text-xs font-mono text-cyan-400">Target: <span id="totalProblemsLabel">0</span></span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="solvedProblemsCount" class="text-2xl font-bold font-mono text-cyan-300">0</span>
+          <span class="text-xs text-slate-400">curated items</span>
+        </div>
+        <div class="flex items-center gap-2 mt-2 text-[11px]">
+          <span class="text-emerald-400 font-mono">Easy: <span id="easyCount">0</span></span>
+          <span class="text-amber-400 font-mono">Med: <span id="medCount">0</span></span>
+          <span class="text-rose-400 font-mono">Hard: <span id="hardCount">0</span></span>
+        </div>
+      </div>
+
+      <!-- Current Phase Status -->
+      <div class="glass-panel p-4 rounded-xl">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-400">Current Phase Target</span>
+          <span id="activePhaseBadge" class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">Phase 1</span>
+        </div>
+        <div class="mt-2">
+          <h4 id="activePhaseName" class="text-sm font-semibold text-slate-100 truncate">C++ Core & Standard Library</h4>
+          <p id="activePhasePace" class="text-xs text-slate-400 mt-1">Weeks 1–2 • Foundations & STL</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase Navigation & Filter Controls -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
+      <!-- Phase Pills -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none" id="phasePillsContainer">
+        <!-- Generated by JavaScript -->
+      </div>
+
+      <!-- Search and Status Filters -->
+      <div class="flex items-center gap-2.5">
+        <div class="relative">
+          <input type="text" id="searchInput" placeholder="Search topic, pattern, or problem..." 
+            class="bg-slate-900 border border-slate-800 text-xs rounded-xl px-3 py-2 pl-8 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-48 sm:w-64 transition-all">
+          <svg class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <select id="statusFilter" class="bg-slate-900 border border-slate-800 text-xs rounded-xl px-2.5 py-2 text-slate-300 focus:outline-none focus:border-indigo-500 cursor-pointer">
+          <option value="ALL">All Status</option>
+          <option value="PENDING">Pending</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="COMPLETED">Mastered</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Day Cards Grid -->
+    <div id="daysGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Dynamic day cards will be inserted here -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="noResultsState" class="hidden text-center py-16">
+      <div class="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-500 mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h3 class="text-sm font-semibold text-slate-300">No matching days or topics found</h3>
+      <p class="text-xs text-slate-500 mt-1">Try resetting your filters or search keywords.</p>
+    </div>
+  </main>
+
+  <!-- Comprehensive Day Detail Modal -->
+  <div id="dayModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden transition-opacity">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+      
+      <!-- Close Button -->
+      <button id="closeModalBtn" class="absolute top-5 right-5 text-slate-400 hover:text-slate-100 p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="pr-12">
+        <div class="flex items-center gap-2">
+          <span id="modalDayNumber" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Day 1</span>
+          <span id="modalPhaseTag" class="text-xs text-slate-400">Phase 1 • Foundations</span>
+        </div>
+        <h2 id="modalDayTitle" class="text-xl font-bold text-white mt-1.5">Modern C++ Fundamentals & Memory Setup</h2>
+        <p id="modalDayGoal" class="text-xs text-slate-300 mt-1">Primary goal: Setup development environment, learn fast I/O idioms, understand data types and overflow rules.</p>
+      </div>
+
+      <!-- 6-Hour Hour-by-Hour Breakdown for this Day -->
+      <div class="mt-6 border-t border-slate-800 pt-5">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Day Schedule Breakdown (6 Hours)
+        </h4>
+
+        <div class="mt-3 space-y-2.5">
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 flex items-start gap-3">
+            <div class="px-2 py-1 rounded bg-sky-500/10 text-sky-400 font-mono text-[11px] font-bold">2.0h</div>
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Theory & Syntax Deep-Dive</span>
+              <p id="modalTheorySchedule" class="text-xs text-slate-400 mt-0.5">Study syntax nuances, bit representations, pass by value vs reference.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 flex items-start gap-3">
+            <div class="px-2 py-1 rounded bg-indigo-500/10 text-indigo-400 font-mono text-[11px] font-bold">2.5h</div>
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Hands-on Problem Solving</span>
+              <p id="modalCodingSchedule" class="text-xs text-slate-400 mt-0.5">Solve core template problems. Emphasize self-sufficient debugging without AI/editorials.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 flex items-start gap-3">
+            <div class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[11px] font-bold">1.5h</div>
+            <div>
+              <span class="text-xs font-semibold text-slate-200">Code Optimization & Notes</span>
+              <p id="modalReviewSchedule" class="text-xs text-slate-400 mt-0.5">Analyze Big-O space/time, refactor code with clean C++ idioms, write concise summaries.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Problems to Solve Checklist -->
+      <div class="mt-6 border-t border-slate-800 pt-5">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+          Curated Target Problems
+        </h4>
+        <div id="modalProblemsList" class="mt-3 space-y-2">
+          <!-- Problem items populated dynamically -->
+        </div>
+      </div>
+
+      <!-- C++ Idiom / Code Pattern Template -->
+      <div class="mt-6 border-t border-slate-800 pt-5">
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+            Key C++ Idiom / Pattern Snippet
+          </h4>
+          <button id="copySnippetBtn" class="text-[11px] text-slate-400 hover:text-white px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 transition-colors">
+            Copy Code
+          </button>
+        </div>
+        <pre class="mt-2.5 p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-indigo-300 overflow-x-auto"><code id="modalCodeSnippet">// C++ snippet</code></pre>
+      </div>
+
+      <!-- Personal Day Notes & Reflection -->
+      <div class="mt-6 border-t border-slate-800 pt-5">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          Day Log & Mistakes to Avoid
+        </h4>
+        <textarea id="modalNotesTextarea" rows="3" placeholder="Write down where you struggled, runtime edge cases you missed, or intuition notes..." 
+          class="w-full mt-2 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500"></textarea>
+      </div>
+
+      <!-- Modal Footer Status Controls -->
+      <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400">Day Status:</span>
+          <select id="modalStatusSelect" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200">
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress (Started)</option>
+            <option value="COMPLETED">Mastered (Completed)</option>
+          </select>
+        </div>
+
+        <button id="saveDayModalBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition-colors">
+          Save Day Progress
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Floating Focus Timer Drawer -->
+  <div id="focusTimerDrawer" class="fixed bottom-4 right-4 z-40 bg-slate-900/95 border border-indigo-500/30 rounded-2xl shadow-2xl p-4 w-72 backdrop-blur-md hidden">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-indigo-400 animate-ping"></span>
+        <span class="text-xs font-bold text-slate-200">6h Session Timer</span>
+      </div>
+      <button id="closeTimerDrawerBtn" class="text-slate-400 hover:text-slate-200">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Timer Mode Selection -->
+    <div class="grid grid-cols-3 gap-1 mb-3 text-[10px] font-mono">
+      <button class="timer-mode-btn active bg-indigo-600 text-white py-1 rounded" data-minutes="120">2h Block</button>
+      <button class="timer-mode-btn bg-slate-800 hover:bg-slate-700 text-slate-300 py-1 rounded" data-minutes="50">50m Grind</button>
+      <button class="timer-mode-btn bg-slate-800 hover:bg-slate-700 text-slate-300 py-1 rounded" data-minutes="10">10m Break</button>
+    </div>
+
+    <!-- Time Readout -->
+    <div class="text-center py-2">
+      <span id="timerDisplay" class="font-mono text-3xl font-extrabold text-white tracking-widest">02:00:00</span>
+      <p id="timerCurrentLabel" class="text-[11px] text-indigo-400 mt-1">Block 1: Deep Theory</p>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center justify-center gap-2 mt-2">
+      <button id="startTimerBtn" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors">Start</button>
+      <button id="pauseTimerBtn" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-colors">Pause</button>
+      <button id="resetTimerBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition-colors">Reset</button>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 border border-slate-700 text-slate-200 px-4 py-2.5 rounded-xl shadow-2xl text-xs flex items-center gap-2 hidden">
+    <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span id="toastMsg">Action completed successfully.</span>
+  </div>
+
+  <script>
+    // 15-Week / 105-Day Intensive Curriculum (6 hours/day)
+    const phasesData = [
+      { id: 1, title: "Phase 1: C++ Core & STL", weeks: "Weeks 1–2", daysRange: "Days 1–14", desc: "Fast I/O, Pointers, References, and STL Deep-Dive" },
+      { id: 2, title: "Phase 2: Linear Data Structures", weeks: "Weeks 3–4", daysRange: "Days 15–28", desc: "Arrays, Two Pointers, Sliding Window, Lists, Monotonic Stacks" },
+      { id: 3, title: "Phase 3: Recursion & Binary Search", weeks: "Weeks 5–6", daysRange: "Days 29–42", desc: "Backtracking permutations, Search on Answer space" },
+      { id: 4, title: "Phase 4: Non-Linear (Trees & Heaps)", weeks: "Weeks 7–8", daysRange: "Days 43–56", desc: "Binary Trees, BSTs, Heaps, Priority Queues, Tries" },
+      { id: 5, title: "Phase 5: Graphs & Disjoint Sets", weeks: "Weeks 9–10", daysRange: "Days 57–70", desc: "BFS/DFS, Topological Sort, DSU, Shortest Paths (Dijkstra)" },
+      { id: 6, title: "Phase 6: Dynamic Programming", weeks: "Weeks 11–13", daysRange: "Days 71–91", desc: "1D, 2D Grid, Knapsack, LCS/Strings, LIS, Interval DP" },
+      { id: 7, title: "Phase 7: Hard & Mock Sprints", weeks: "Weeks 14–15", daysRange: "Days 92–105", desc: "Blind 75 speed-runs, Advanced Segment Trees, Mock Interviews" }
+    ];
+
+    const curriculumDays = [
+      // PHASE 1 (Days 1 to 14)
+      {
+        day: 1, phaseId: 1, week: 1,
+        title: "C++ Setup, Fast I/O & Memory Layout",
+        goal: "Master fast execution headers, bit limits, pass-by-value vs pass-by-reference.",
+        theory: "Fast I/O mechanics (cin.tie(NULL)), long long vs int bounds, stack vs heap memory overview.",
+        coding: "Implement basic array rotations, check integer overflow cases, handle multiple test cases.",
+        review: "Document template boilerplate and practice calculating bit representations.",
+        problems: [
+          { name: "Reverse Integer (Handle Overflow)", diff: "Easy", solved: false },
+          { name: "Palindrome Number", diff: "Easy", solved: false },
+          { name: "Fast Power: a^b % m", diff: "Medium", solved: false }
+        ],
+        snippet: `// Fast I/O Boilerplate for Competitive Programming\n#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // Use \\n instead of endl to avoid frequent flushes\n    return 0;\n}`,
+        status: "COMPLETED", notes: "Always use long long for accumulations to avoid signed 32-bit overflow."
+      },
+      {
+        day: 2, phaseId: 1, week: 1,
+        title: "Pointers, References & Address Arithmetic",
+        goal: "Unpack raw pointer manipulation, references, and avoid dangling pointers.",
+        theory: "Pointer dereferencing, reference variables (&), nullptr, dynamic allocation with new/delete.",
+        coding: "Write pointer swap functions, pointer arithmetic on C-style arrays, and 2D dynamic arrays.",
+        review: "Review segmentation fault scenarios (out-of-bounds, dereferencing nullptr).",
+        problems: [
+          { name: "Swap Two Variables using Pointers & References", diff: "Easy", solved: false },
+          { name: "Dynamic 2D Array allocation and deallocation", diff: "Medium", solved: false }
+        ],
+        snippet: `void swapRef(int &a, int &b) {\n    int temp = a;\n    a = b;\n    b = temp;\n}`,
+        status: "COMPLETED", notes: "Prefer references (&) over raw pointers when NULL is not expected."
+      },
+      {
+        day: 3, phaseId: 1, week: 1,
+        title: "Time & Space Complexity + Big-O Drill",
+        goal: "Internalize Big-O, Big-Omega, Big-Theta, recursion tree depth, and tight bounds.",
+        theory: "Operations per second in C++ (~10^8 ops/sec), amortized complexity, harmonic series O(N log N).",
+        coding: "Analyze complexity of nested loops, geometric series loops, and recursive calls.",
+        review: "Create a reference sheet of input constraints (N <= 10^5 -> O(N log N), N <= 20 -> O(2^N)).",
+        problems: [
+          { name: "Fibonacci Iterative vs Recursive Complexity", diff: "Easy", solved: false },
+          { name: "Count steps for Sieve of Eratosthenes", diff: "Medium", solved: false }
+        ],
+        snippet: `// General Rules of Thumb for 1-second limit:\n// N <= 20     : O(2^N) or O(N!)\n// N <= 500    : O(N^3)\n// N <= 5,000  : O(N^2)\n// N <= 10^5   : O(N log N)\n// N <= 10^8   : O(N)`,
+        status: "IN_PROGRESS", notes: ""
+      },
+      {
+        day: 4, phaseId: 1, week: 1,
+        title: "Core Math, GCD & Modular Arithmetic",
+        goal: "Understand Euclidean GCD, Extended Euclid, and Modular Inverse basics.",
+        theory: "Euclidean algorithm for GCD, properties of modulo (addition, multiplication, division).",
+        coding: "Implement Euclidean GCD in one line, modular exponentiation O(log B).",
+        review: "Memorize Fermat's Little Theorem for modulo inverse when modulo is prime.",
+        problems: [
+          { name: "Greatest Common Divisor (Euclid)", diff: "Easy", solved: false },
+          { name: "Modular Exponentiation (Binary Exponentiation)", diff: "Medium", solved: false }
+        ],
+        snippet: `long long binPow(long long base, long long exp, long long mod) {\n    long long res = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp & 1) res = (res * base) % mod;\n        base = (base * base) % mod;\n        exp >>= 1;\n    }\n    return res;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 5, phaseId: 1, week: 1,
+        title: "Bit Manipulation Fundamentals",
+        goal: "Master bitwise AND, OR, XOR, shifts, and bitmask state representation.",
+        theory: "Bit representations, bitwise operators, two's complement, bit tricks (x & -x, x & (x-1)).",
+        coding: "Solve single number, count set bits (__builtin_popcount), and subset generation via bitmask.",
+        review: "Document bitmask tricks used for state representation in DP.",
+        problems: [
+          { name: "Number of 1 Bits (Hamming Weight)", diff: "Easy", solved: false },
+          { name: "Single Number I (XOR trick)", diff: "Easy", solved: false },
+          { name: "Single Number II (Bit frequencies)", diff: "Medium", solved: false }
+        ],
+        snippet: `// Common Bit Hacks\nint countBits = __builtin_popcount(n);\nint lowestBit = (n & -n);\nint clearLowestSetBit = (n & (n - 1));\nbool isPowerOfTwo = (n > 0) && ((n & (n - 1)) == 0);`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 6, phaseId: 1, week: 1,
+        title: "Prime Sieve & Number Theory Grinding",
+        goal: "Master Sieve of Eratosthenes, Segmented Sieve, and Prime Factorization in O(sqrt(N)).",
+        theory: "Sieve complexity derivation O(N log(log N)), prime factors counting.",
+        coding: "Implement standard sieve up to 10^7, precalculate smallest prime factor (SPF).",
+        review: "Compare factorization using SPF in O(log N) vs naive trial division.",
+        problems: [
+          { name: "Count Primes (LeetCode 204)", diff: "Medium", solved: false },
+          { name: "Prime Factorization via SPF Sieve", diff: "Medium", solved: false }
+        ],
+        snippet: `const int MAXN = 1e6 + 5;\nvector<bool> isPrime(MAXN, true);\nvoid sieve() {\n    isPrime[0] = isPrime[1] = false;\n    for (int p = 2; p * p < MAXN; p++) {\n        if (isPrime[p]) {\n            for (int i = p * p; i < MAXN; i += p) isPrime[i] = false;\n        }\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 7, phaseId: 1, week: 1,
+        title: "Week 1 Consolidation & Timed Mock",
+        goal: "Perform 3-hour timed problem set on C++ math, bits, and pointer foundations.",
+        theory: "Review weak areas identified throughout Week 1.",
+        coding: "3-hour mock contest with 4 problems combining math, bit manipulation, and fast arrays.",
+        review: "Refactor solutions; measure your typing speed and bug-free rate.",
+        problems: [
+          { name: "Reverse Bits", diff: "Easy", solved: false },
+          { name: "Subsets via Bit Manipulation", diff: "Medium", solved: false },
+          { name: "Divide Two Integers without *, /, %", diff: "Medium", solved: false }
+        ],
+        snippet: `// Bitmask subset generation\nint n = 3;\nfor (int mask = 0; mask < (1 << n); ++mask) {\n    for (int i = 0; i < n; ++i) {\n        if (mask & (1 << i)) cout << i << " ";\n    }\n    cout << "\\n";\n}`,
+        status: "PENDING", notes: ""
+      },
+      // Week 2: STL
+      {
+        day: 8, phaseId: 1, week: 2,
+        title: "C++ STL: Vectors, Pairs & Iterators",
+        goal: "Understand vector dynamic resizing, vector capacity vs size, and iterators.",
+        theory: "Vector memory growth strategy (doubling), capacity vs size, shrink_to_fit, reserve vs resize.",
+        coding: "Practice vector operations, pair/tuple custom sort, erase-remove idiom.",
+        review: "Trace why std::vector::reserve avoids reallocation penalties during heavy push_back.",
+        problems: [
+          { name: "Concatenation of Array", diff: "Easy", solved: false },
+          { name: "Custom Sort Vector of Pairs with Lambda", diff: "Easy", solved: false }
+        ],
+        snippet: `vector<pair<int, int>> v = {{1, 4}, {2, 3}, {1, 2}};\n// Custom lambda comparator\nsort(v.begin(), v.end(), [](const auto &a, const auto &b) {\n    if (a.first != b.first) return a.first < b.first;\n    return a.second > b.second; // descending on second\n});`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 9, phaseId: 1, week: 2,
+        title: "C++ STL: Associative Containers (Map vs Unordered Map)",
+        goal: "Compare Red-Black Tree (std::map) vs Hash Table (std::unordered_map).",
+        theory: "O(log N) vs average O(1) time; hash collision attacks and custom hash for pairs.",
+        coding: "Frequency counting, anagram grouping, handling pair as key in hash maps.",
+        review: "Learn why unordered_map can degrade to O(N) without a custom anti-hash-collision function.",
+        problems: [
+          { name: "Contains Duplicate", diff: "Easy", solved: false },
+          { name: "Valid Anagram", diff: "Easy", solved: false },
+          { name: "Group Anagrams", diff: "Medium", solved: false }
+        ],
+        snippet: `// Custom Hash struct for std::pair to use in unordered_map\nstruct PairHash {\n    size_t operator()(const pair<int, int>& p) const {\n        return hash<int>()(p.first) ^ (hash<int>()(p.second) << 1);\n    }\n};\nunordered_map<pair<int, int>, int, PairHash> mp;`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 10, phaseId: 1, week: 2,
+        title: "C++ STL: Set, Multiset & Priority Queue",
+        goal: "Master ordered sets, multisets (erase by iterator vs key), and binary heaps.",
+        theory: "Difference between set::erase(val) (deletes all copies) vs set::erase(set::find(val)) (deletes one).",
+        coding: "Sliding window minimum using multiset, top-k frequent elements using priority_queue.",
+        review: "Compare max-heap vs min-heap syntax: priority_queue<int, vector<int>, greater<int>>.",
+        problems: [
+          { name: "Kth Largest Element in an Array", diff: "Medium", solved: false },
+          { name: "Top K Frequent Elements", diff: "Medium", solved: false }
+        ],
+        snippet: `// Min-Heap in C++\npriority_queue<int, vector<int>, greater<int>> minHeap;\n\n// Erasing a SINGLE element from multiset\nmultiset<int> ms = {5, 5, 5, 10};\nms.erase(ms.find(5)); // Leaves two 5's`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 11, phaseId: 1, week: 2,
+        title: "C++ STL: Stack, Queue, Deque & String View",
+        goal: "Master double-ended queues (std::deque), string operations, and std::string_view.",
+        theory: "Deque block allocation vs vector continuous memory; string copying costs.",
+        coding: "Implement basic parenthesis validator, evaluate reverse polish notation.",
+        review: "Understand when std::deque outperforms std::vector for front insertions.",
+        problems: [
+          { name: "Valid Parentheses", diff: "Easy", solved: false },
+          { name: "Evaluate Reverse Polish Notation", diff: "Medium", solved: false }
+        ],
+        snippet: `stack<char> st;\nfor (char c : s) {\n    if (c == '(' || c == '{' || c == '[') st.push(c);\n    else {\n        if (st.empty() || !matches(st.top(), c)) return false;\n        st.pop();\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 12, phaseId: 1, week: 2,
+        title: "STL Algorithms: sort, lower_bound & upper_bound",
+        goal: "Master binary search functions in <algorithm> with exact return value semantics.",
+        theory: "lower_bound (>= x) vs upper_bound (> x); pointer/iterator arithmetic (idx = it - v.begin()).",
+        coding: "Find first and last position of element in sorted array using pure STL functions.",
+        review: "Avoid using generic std::lower_bound on std::set; always use member s.lower_bound()!",
+        problems: [
+          { name: "Find First and Last Position in Sorted Array", diff: "Medium", solved: false },
+          { name: "Search Insert Position", diff: "Easy", solved: false }
+        ],
+        snippet: `vector<int> a = {1, 2, 4, 4, 4, 7, 9};\n// Index of first element >= 4\nint idx1 = lower_bound(a.begin(), a.end(), 4) - a.begin(); // index 2\n// Index of first element > 4\nint idx2 = upper_bound(a.begin(), a.end(), 4) - a.begin(); // index 5`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 13, phaseId: 1, week: 2,
+        title: "STL Permutations, Min/Max Elements & Bitset",
+        goal: "Harness std::next_permutation, nth_element (O(N) selection), and std::bitset.",
+        theory: "std::nth_element intro-select algorithm; bitset space efficiency (1 bit per boolean).",
+        coding: "Generate permutations with next_permutation; solve subset XOR queries via bitset.",
+        review: "Compare std::vector<bool> space optimization quirks with std::bitset.",
+        problems: [
+          { name: "Next Permutation", diff: "Medium", solved: false },
+          { name: "Permutations", diff: "Medium", solved: false }
+        ],
+        snippet: `vector<int> nums = {1, 2, 3};\ndo {\n    // processes each lexicographical permutation\n} while (next_permutation(nums.begin(), nums.end()));`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 14, phaseId: 1, week: 2,
+        title: "Phase 1 Graduation: The STL Benchmark Mock",
+        goal: "5-hour timed exam testing pure STL fluency, C++ nuances, and complexity proofs.",
+        theory: "Full recap of all Phase 1 concepts.",
+        coding: "Complete 5 problems under strict 45-min individual time limits.",
+        review: "Benchmark coding speed and identify remaining C++ syntax hesitations.",
+        problems: [
+          { name: "Two Sum", diff: "Easy", solved: false },
+          { name: "Top K Frequent Words (Ties broken lexicographically)", diff: "Medium", solved: false },
+          { name: "Find Median from Data Stream (Two Heaps warmup)", diff: "Hard", solved: false }
+        ],
+        snippet: `// Phase 1 Milestone achieved when you can write correct comparators and STL pipelines without looking up documentation.`,
+        status: "PENDING", notes: ""
+      },
+
+      // PHASE 2: Linear Structures (Days 15 to 28)
+      {
+        day: 15, phaseId: 2, week: 3,
+        title: "Arrays & Prefix Sums / Difference Arrays",
+        goal: "Master 1D/2D Prefix Sums and Range Addition with Difference Arrays.",
+        theory: "Prefix sums for O(1) range queries; Difference array for O(1) range updates.",
+        coding: "Subarray sum equals K (hash map + prefix sum), range sum queries.",
+        review: "Pay special attention to negative numbers in prefix sum remainder problems.",
+        problems: [
+          { name: "Range Sum Query - Immutable", diff: "Easy", solved: false },
+          { name: "Subarray Sum Equals K", diff: "Medium", solved: false },
+          { name: "Continuous Subarray Sum (Modulo arithmetic)", diff: "Medium", solved: false }
+        ],
+        snippet: `// Subarray Sum Equals K\nunordered_map<int, int> prefixCount;\nprefixCount[0] = 1;\nint sum = 0, count = 0;\nfor (int x : nums) {\n    sum += x;\n    if (prefixCount.count(sum - k)) count += prefixCount[sum - k];\n    prefixCount[sum]++;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 16, phaseId: 2, week: 3,
+        title: "Kadane's Algorithm & Maximum Subarray Variants",
+        goal: "Master maximum subarray sum, minimum subarray sum, and circular subarray variations.",
+        theory: "Local vs Global optimal substructure in Kadane's algorithm.",
+        coding: "Maximum subarray, Maximum product subarray (tracking min and max), circular array sums.",
+        review: "Carefully trace how zero and negative elements impact maximum product subarray.",
+        problems: [
+          { name: "Maximum Subarray (Kadane)", diff: "Easy", solved: false },
+          { name: "Maximum Product Subarray", diff: "Medium", solved: false },
+          { name: "Maximum Sum Circular Subarray", diff: "Medium", solved: false }
+        ],
+        snippet: `int maxSubArray(vector<int>& nums) {\n    int currMax = nums[0], maxSoFar = nums[0];\n    for (size_t i = 1; i < nums.size(); ++i) {\n        currMax = max(nums[i], currMax + nums[i]);\n        maxSoFar = max(maxSoFar, currMax);\n    }\n    return maxSoFar;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 17, phaseId: 2, week: 3,
+        title: "Two Pointers: Inward & Parallel Patterns",
+        goal: "Master two-pointer converging (left/right) and fast/slow runners on sorted arrays.",
+        theory: "Monotonicity condition that guarantees correctness without examining all pairs.",
+        coding: "Two Sum II (sorted), 3Sum (handling duplicate skips), Container with Most Water.",
+        review: "Examine edge cases for skipping duplicates: while (l < r && nums[l] == nums[l+1]) l++;",
+        problems: [
+          { name: "Two Sum II - Input Array Is Sorted", diff: "Easy", solved: false },
+          { name: "3Sum", diff: "Medium", solved: false },
+          { name: "Container With Most Water", diff: "Medium", solved: false }
+        ],
+        snippet: `// 3Sum duplicate skip pattern\nfor (int i = 0; i < n - 2; ++i) {\n    if (i > 0 && nums[i] == nums[i-1]) continue;\n    int l = i + 1, r = n - 1;\n    while (l < r) {\n        int sum = nums[i] + nums[l] + nums[r];\n        if (sum == 0) {\n            res.push_back({nums[i], nums[l], nums[r]});\n            while (l < r && nums[l] == nums[l+1]) l++;\n            while (l < r && nums[r] == nums[r-1]) r--;\n            l++; r--;\n        } else if (sum < 0) l++;\n        else r--;\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 18, phaseId: 2, week: 3,
+        title: "Sliding Window: Fixed Size Windows",
+        goal: "Master fixed-length window updates in O(1) per step.",
+        theory: "Window initialization followed by simultaneous add right and remove left.",
+        coding: "Find all anagrams in a string, sliding window maximum count of vowels.",
+        review: "Compare frequency array matching in O(26) vs maintaining a matching count variable in O(1).",
+        problems: [
+          { name: "Maximum Average Subarray I", diff: "Easy", solved: false },
+          { name: "Find All Anagrams in a String", diff: "Medium", solved: false },
+          { name: "Permutation in String", diff: "Medium", solved: false }
+        ],
+        snippet: `// Fixed Window Template\nfor (int i = 0; i < k; ++i) windowSum += a[i];\nint maxSum = windowSum;\nfor (int i = k; i < n; ++i) {\n    windowSum += a[i] - a[i - k];\n    maxSum = max(maxSum, windowSum);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 19, phaseId: 2, week: 3,
+        title: "Sliding Window: Dynamic (Variable) Windows",
+        goal: "Master expanding right and shrinking left to satisfy constraints.",
+        theory: "Conditions when dynamic sliding window works: problem must exhibit monotonicity.",
+        coding: "Longest substring without repeating characters, Minimum size subarray sum.",
+        review: "Understand why sliding window fails on arrays containing negative numbers (use prefix sums).",
+        problems: [
+          { name: "Longest Substring Without Repeating Characters", diff: "Medium", solved: false },
+          { name: "Minimum Size Subarray Sum", diff: "Medium", solved: false },
+          { name: "Max Consecutive Ones III", diff: "Medium", solved: false }
+        ],
+        snippet: `// Dynamic Window Template\nint left = 0, ans = 0;\nfor (int right = 0; right < n; ++right) {\n    window.add(nums[right]);\n    while (window.invalid()) {\n        window.remove(nums[left]);\n        left++;\n    }\n    ans = max(ans, right - left + 1);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 20, phaseId: 2, week: 3,
+        title: "Advanced Sliding Window: 'At Most K' Technique",
+        goal: "Solve exact K queries using: Exactly(K) = AtMost(K) - AtMost(K - 1).",
+        theory: "Why 'exactly K' is difficult to maintain directly due to lack of monotonicity.",
+        coding: "Subarrays with K different integers, count number of nice subarrays.",
+        review: "Practice deriving AtMost(K) helper functions cleanly.",
+        problems: [
+          { name: "Subarray with K Different Integers", diff: "Hard", solved: false },
+          { name: "Count Number of Nice Subarrays", diff: "Medium", solved: false }
+        ],
+        snippet: `int subarraysWithKDistinct(vector<int>& nums, int k) {\n    return atMost(nums, k) - atMost(nums, k - 1);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 21, phaseId: 2, week: 3,
+        title: "Week 3 Sprint: Arrays & Two Pointers Synthesis",
+        goal: "Timed mock contest covering arrays, prefix sums, two pointers, and sliding window.",
+        theory: "Review edge cases: empty inputs, arrays of identical elements, all negatives.",
+        coding: "Solve 4 problems under 3 hours without external references.",
+        review: "Check space efficiency: avoid unnecessary map overhead when an array of size 26 or 128 suffices.",
+        problems: [
+          { name: "Trapping Rain Water (Two Pointer Approach)", diff: "Hard", solved: false },
+          { name: "Minimum Window Substring", diff: "Hard", solved: false }
+        ],
+        snippet: `// Two-Pointer Trapping Rain Water O(N) time O(1) space\nint l = 0, r = n - 1, leftMax = 0, rightMax = 0, water = 0;\nwhile (l <= r) {\n    if (height[l] <= height[r]) {\n        if (height[l] >= leftMax) leftMax = height[l];\n        else water += leftMax - height[l];\n        l++;\n    } else {\n        if (height[r] >= rightMax) rightMax = height[r];\n        else water += rightMax - height[r];\n        r--;\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+
+      // Week 4: Linked Lists & Monotonic Stacks
+      {
+        day: 22, phaseId: 2, week: 4,
+        title: "Linked Lists: Pointer Mechanics & Dummy Nodes",
+        goal: "Master pointer safety, dummy heads, and iterative linked list manipulation.",
+        theory: "Why dummy nodes eliminate edge cases for empty list and head deletions.",
+        coding: "Reverse linked list (iterative & recursive), merge two sorted lists, remove Nth node from end.",
+        review: "Trace pointer swaps on paper to prevent memory leaks and cycles.",
+        problems: [
+          { name: "Reverse Linked List", diff: "Easy", solved: false },
+          { name: "Merge Two Sorted Lists", diff: "Easy", solved: false },
+          { name: "Remove Nth Node From End of List", diff: "Medium", solved: false }
+        ],
+        snippet: `ListNode* reverseList(ListNode* head) {\n    ListNode *prev = nullptr, *curr = head;\n    while (curr) {\n        ListNode* nxt = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = nxt;\n    }\n    return prev;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 23, phaseId: 2, week: 4,
+        title: "Linked Lists: Fast & Slow Pointers (Floyd's Cycle)",
+        goal: "Master cycle detection, cycle entry point, and finding list middle in one pass.",
+        theory: "Mathematical proof of Floyd's Tortoise and Hare algorithm.",
+        coding: "Linked List Cycle I & II, Palindrome Linked List, Reorder List.",
+        review: "Revisit finding entry point: reset slow to head, advance both by 1 step until meet.",
+        problems: [
+          { name: "Linked List Cycle", diff: "Easy", solved: false },
+          { name: "Linked List Cycle II (Find Entry Point)", diff: "Medium", solved: false },
+          { name: "Palindrome Linked List", diff: "Easy", solved: false }
+        ],
+        snippet: `ListNode *slow = head, *fast = head;\nwhile (fast && fast->next) {\n    slow = slow->next;\n    fast = fast->next->next;\n    if (slow == fast) {\n        // Cycle exists\n        ListNode* entry = head;\n        while (entry != slow) {\n            entry = entry->next;\n            slow = slow->next;\n        }\n        return entry;\n    }\n}\nreturn nullptr;`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 24, phaseId: 2, week: 4,
+        title: "Monotonic Stack: Next Greater / Smaller Element",
+        goal: "Master monotonic non-increasing and non-decreasing stack patterns in O(N).",
+        theory: "Why monotonic stacks process each element in at most 2 operations (1 push, 1 pop).",
+        coding: "Next Greater Element I & II (circular array), Daily Temperatures.",
+        review: "Clarify strictly greater vs greater or equal conditions.",
+        problems: [
+          { name: "Next Greater Element I", diff: "Easy", solved: false },
+          { name: "Daily Temperatures", diff: "Medium", solved: false },
+          { name: "Next Greater Element II (Circular)", diff: "Medium", solved: false }
+        ],
+        snippet: `// Monotonic Stack for Next Greater Element\nvector<int> nge(n, -1);\nstack<int> st; // stores indices\nfor (int i = 0; i < n; ++i) {\n    while (!st.empty() && nums[st.top()] < nums[i]) {\n        nge[st.top()] = nums[i];\n        st.pop();\n    }\n    st.push(i);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 25, phaseId: 2, week: 4,
+        title: "Monotonic Stack: Histogram & Area Problems",
+        goal: "Master calculating max rectangle in histogram and 2D maximal rectangle.",
+        theory: "Finding left smaller and right smaller boundary for each bar in O(N).",
+        coding: "Largest Rectangle in Histogram, Maximal Rectangle in 2D binary matrix.",
+        review: "Walk through the dummy bar (height 0 at end) trick to flush the stack completely.",
+        problems: [
+          { name: "Largest Rectangle in Histogram", diff: "Hard", solved: false },
+          { name: "Maximal Rectangle", diff: "Hard", solved: false }
+        ],
+        snippet: `int largestRectangleArea(vector<int>& heights) {\n    heights.push_back(0); // sentinel\n    stack<int> st;\n    int maxArea = 0;\n    for (int i = 0; i < (int)heights.size(); ++i) {\n        while (!st.empty() && heights[st.top()] > heights[i]) {\n            int h = heights[st.top()]; st.pop();\n            int w = st.empty() ? i : (i - st.top() - 1);\n            maxArea = max(maxArea, h * w);\n        }\n        st.push(i);\n    }\n    return maxArea;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 26, phaseId: 2, week: 4,
+        title: "Monotonic Deque: Sliding Window Extremes",
+        goal: "Master double-ended monotonic deque for O(N) sliding window max/min.",
+        theory: "Maintaining elements in strictly decreasing order while removing expired front indices.",
+        coding: "Sliding Window Maximum, Constrained Subsequence Sum.",
+        review: "Confirm index storage in deque to easily verify index >= i - k + 1.",
+        problems: [
+          { name: "Sliding Window Maximum", diff: "Hard", solved: false },
+          { name: "Shortest Subarray with Sum at Least K", diff: "Hard", solved: false }
+        ],
+        snippet: `deque<int> dq; // indices\nvector<int> ans;\nfor (int i = 0; i < n; ++i) {\n    if (!dq.empty() && dq.front() <= i - k) dq.pop_front();\n    while (!dq.empty() && nums[dq.back()] <= nums[i]) dq.pop_back();\n    dq.push_back(i);\n    if (i >= k - 1) ans.push_back(nums[dq.front()]);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 27, phaseId: 2, week: 4,
+        title: "Complex Stacks: Min Stack & Calculator Parsing",
+        goal: "Implement O(1) Min Stack without extra O(N) space; parse basic arithmetic strings.",
+        theory: "Mathematical value encoding 2*val - minVal or auxiliary minimum tracking stack.",
+        coding: "Min Stack, Basic Calculator I & II.",
+        review: "Handle operator precedence, unary minus, and parentheses.",
+        problems: [
+          { name: "Min Stack", diff: "Medium", solved: false },
+          { name: "Basic Calculator II", diff: "Medium", solved: false }
+        ],
+        snippet: `// O(1) Extra Space Min Stack with encoding\nstack<long long> st;\nlong long minVal;\nvoid push(long long val) {\n    if (st.empty()) { st.push(val); minVal = val; }\n    else if (val < minVal) {\n        st.push(2 * val - minVal);\n        minVal = val;\n    } else st.push(val);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 28, phaseId: 2, week: 4,
+        title: "Phase 2 Milestone Review & Timed Interview",
+        goal: "Full 6-hour sprint: review all Phase 2 notes, solve 4 unseen Medium/Hard questions.",
+        theory: "Consolidate Two-Pointer vs Sliding Window vs Monotonic Stack problem triggers.",
+        coding: "Perform timed 45-minute interview rounds.",
+        review: "Log all edge-case bugs into notes.",
+        problems: [
+          { name: "LRU Cache (Doubly Linked List + Hash Map)", diff: "Medium", solved: false },
+          { name: "Asteroid Collision", diff: "Medium", solved: false },
+          { name: "Online Stock Span", diff: "Medium", solved: false }
+        ],
+        snippet: `// Review trigger checklist:\n// Subarray sum with >= 0: Sliding Window\n// Subarray sum with negative nums: Prefix Sum + Hash Map\n// Range max/min in window: Monotonic Deque\n// Next Greater/Smaller: Monotonic Stack`,
+        status: "PENDING", notes: ""
+      },
+
+      // PHASE 3: Recursion, Backtracking & Binary Search (Days 29 to 42)
+      {
+        day: 29, phaseId: 3, week: 5,
+        title: "Recursion Foundations & Call-Stack Visualization",
+        goal: "Deconstruct recursion trees, base cases, and parameter passing versus return values.",
+        theory: "Call stack frames, stack overflow limits in C++, Tail Call Optimization.",
+        coding: "Power(x, n), reverse a stack using recursion without extra memory, Tower of Hanoi.",
+        review: "Draw the complete state transition tree for subsets of size 3.",
+        problems: [
+          { name: "Pow(x, n) in O(log N)", diff: "Medium", solved: false },
+          { name: "Reverse String Recursively", diff: "Easy", solved: false }
+        ],
+        snippet: `double myPow(double x, long long n) {\n    if (n < 0) { x = 1 / x; n = -n; }\n    if (n == 0) return 1.0;\n    double half = myPow(x, n / 2);\n    if (n % 2 == 0) return half * half;\n    return half * half * x;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 30, phaseId: 3, week: 5,
+        title: "Backtracking: Subsets & Combinations",
+        goal: "Master state exploration, choose-explore-unchoose pattern, and duplicate pruning.",
+        theory: "Time complexity O(2^N); difference between index advancement vs repetition.",
+        coding: "Subsets I & II (with duplicate handling), Combination Sum I & II.",
+        review: "Practice sorting the array first to prune identical branches: if (i > start && nums[i] == nums[i-1]) continue.",
+        problems: [
+          { name: "Subsets II (Contains Duplicates)", diff: "Medium", solved: false },
+          { name: "Combination Sum", diff: "Medium", solved: false },
+          { name: "Combination Sum II", diff: "Medium", solved: false }
+        ],
+        snippet: `void backtrack(int start, vector<int>& nums, vector<int>& curr, vector<vector<int>>& res) {\n    res.push_back(curr);\n    for (int i = start; i < (int)nums.size(); ++i) {\n        if (i > start && nums[i] == nums[i-1]) continue; // prune\n        curr.push_back(nums[i]);\n        backtrack(i + 1, nums, curr, res);\n        curr.pop_back(); // backtrack\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 31, phaseId: 3, week: 5,
+        title: "Backtracking: Permutations & Path Search",
+        goal: "Master visited frequency masks, in-place swapping, and grid word searches.",
+        theory: "State space exploration size O(N!); space optimization using boolean array vs swap.",
+        coding: "Permutations I & II, Word Search in 2D grid.",
+        review: "Ensure backtracking un-marks visited grid cells before returning to the parent caller.",
+        problems: [
+          { name: "Permutations II", diff: "Medium", solved: false },
+          { name: "Word Search", diff: "Medium", solved: false }
+        ],
+        snippet: `bool dfs(vector<vector<char>>& board, string& word, int i, int j, int k) {\n    if (k == (int)word.size()) return true;\n    if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || board[i][j] != word[k]) return false;\n    char temp = board[i][j];\n    board[i][j] = '#'; // mark visited\n    bool found = dfs(board, word, i+1, j, k+1) || dfs(board, word, i-1, j, k+1) ||\n                 dfs(board, word, i, j+1, k+1) || dfs(board, word, i, j-1, k+1);\n    board[i][j] = temp; // unchoose\n    return found;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 32, phaseId: 3, week: 5,
+        title: "Hard Backtracking: N-Queens & Sudoku Solver",
+        goal: "Master constraint satisfaction with bitmask / lookup arrays for O(1) checks.",
+        theory: "Tracking diagonals with row - col + (N-1) and row + col.",
+        coding: "N-Queens I & II, Sudoku Solver.",
+        review: "Compare using boolean sets vs integer bitmasks for queen diagonal validation.",
+        problems: [
+          { name: "N-Queens", diff: "Hard", solved: false },
+          { name: "Sudoku Solver", diff: "Hard", solved: false }
+        ],
+        snippet: `// Diagonal tracking for N-Queens\nvector<bool> cols(n, false);\nvector<bool> diag1(2 * n, false); // row - col + n\nvector<bool> diag2(2 * n, false); // row + col`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 33, phaseId: 3, week: 5,
+        title: "Binary Search: Classic & Boundary Invariants",
+        goal: "Eliminate infinite loops; master while (low <= high) and low + (high - low) / 2.",
+        theory: "Loop invariants, midpoint calculation avoiding overflow, search space reduction.",
+        coding: "Binary Search, Search in Rotated Sorted Array I & II, Find Peak Element.",
+        review: "Write and memorize your standard template without off-by-one errors.",
+        problems: [
+          { name: "Search in Rotated Sorted Array", diff: "Medium", solved: false },
+          { name: "Find Minimum in Rotated Sorted Array", diff: "Medium", solved: false },
+          { name: "Find Peak Element", diff: "Medium", solved: false }
+        ],
+        snippet: `int search(vector<int>& nums, int target) {\n    int low = 0, high = (int)nums.size() - 1;\n    while (low <= high) {\n        int mid = low + (high - low) / 2;\n        if (nums[mid] == target) return mid;\n        // Check sorted half\n        if (nums[low] <= nums[mid]) {\n            if (target >= nums[low] && target < nums[mid]) high = mid - 1;\n            else low = mid + 1;\n        } else {\n            if (target > nums[mid] && target <= nums[high]) low = mid + 1;\n            else high = mid - 1;\n        }\n    }\n    return -1;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 34, phaseId: 3, week: 5,
+        title: "Binary Search on Answer Space (Predicate Function)",
+        goal: "Master recognizing monotonic condition F(x) = [T, T, ..., F, F] to find optimal boundary.",
+        theory: "Formulating check(x) predicate function; defining search domain [minPossible, maxPossible].",
+        coding: "Koko Eating Bananas, Capacity to Ship Packages Within D Days.",
+        review: "Verify whether mid can be the answer: low = mid + 1 vs high = mid.",
+        problems: [
+          { name: "Koko Eating Bananas", diff: "Medium", solved: false },
+          { name: "Capacity To Ship Packages Within D Days", diff: "Medium", solved: false },
+          { name: "Split Array Largest Sum", diff: "Hard", solved: false }
+        ],
+        snippet: `// Binary Search on Answer Template\nlong long low = minVal, high = maxVal, ans = high;\nwhile (low <= high) {\n    long long mid = low + (high - low) / 2;\n    if (canFulfill(mid)) {\n        ans = mid;         // Record potential optimal\n        high = mid - 1;    // Try smaller\n    } else {\n        low = mid + 1;\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 35, phaseId: 3, week: 5,
+        title: "Advanced Binary Search: Allocation & Geometry",
+        goal: "Master aggressive cows pattern, painter partition, and median of two sorted arrays.",
+        theory: "Partitioning two arrays in O(log(min(M, N))).",
+        coding: "Aggressive Cows, Median of Two Sorted Arrays.",
+        review: "Derive balance condition for median of two sorted arrays.",
+        problems: [
+          { name: "Aggressive Cows (Spoj / Codeforces)", diff: "Medium", solved: false },
+          { name: "Median of Two Sorted Arrays", diff: "Hard", solved: false }
+        ],
+        snippet: `// Partition idea for Median of 2 sorted arrays\nint pX = (low + high) / 2;\nint pY = (x + y + 1) / 2 - pX;\n// Ensure maxLeftX <= minRightY && maxLeftY <= minRightX`,
+        status: "PENDING", notes: ""
+      },
+
+      // DAYS 36 to 42: Consolidation & transition to non-linear
+      {
+        day: 36, phaseId: 3, week: 6,
+        title: "Recursion with Memoization (Intro to Top-Down)",
+        goal: "Bridge backtracking and dynamic programming by identifying overlapping subproblems.",
+        theory: "State definition, memoization table dimensions, identifying recursive DAG.",
+        coding: "Climbing Stairs, Min Cost Climbing Stairs, House Robber I (Recursive + Memo).",
+        review: "Compare call tree size before and after memoization (exponential to linear).",
+        problems: [
+          { name: "House Robber", diff: "Medium", solved: false },
+          { name: "Target Sum", diff: "Medium", solved: false }
+        ],
+        snippet: `int memo[10005];\nint solve(int i, vector<int>& nums) {\n    if (i >= nums.size()) return 0;\n    if (memo[i] != -1) return memo[i];\n    return memo[i] = max(nums[i] + solve(i + 2, nums), solve(i + 1, nums));\n}`,
+        status: "PENDING", notes: ""
+      },
+
+      // PHASE 4: Non-Linear (Trees & Heaps) - Days 43 to 56
+      {
+        day: 43, phaseId: 4, week: 7,
+        title: "Binary Tree Traversals: DFS & BFS",
+        goal: "Master Preorder, Inorder, Postorder, Level Order, and Iterative Traversals.",
+        theory: "Tree recursion stack depth; queue for BFS level-order; Morris Traversal intro.",
+        coding: "Binary Tree Level Order Traversal, Zigzag Level Order, Iterative Inorder.",
+        review: "Write iterative Inorder using a stack without looking at references.",
+        problems: [
+          { name: "Binary Tree Level Order Traversal", diff: "Medium", solved: false },
+          { name: "Binary Tree Zigzag Level Order Traversal", diff: "Medium", solved: false },
+          { name: "Binary Tree Inorder Traversal (Iterative)", diff: "Easy", solved: false }
+        ],
+        snippet: `// Iterative Inorder\nstack<TreeNode*> st;\nTreeNode* curr = root;\nwhile (curr || !st.empty()) {\n    while (curr) { st.push(curr); curr = curr->left; }\n    curr = st.top(); st.pop();\n    ans.push_back(curr->val);\n    curr = curr->right;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 44, phaseId: 4, week: 7,
+        title: "Tree Properties: Height, Diameter & Balance",
+        goal: "Solve bottom-up subtree metric calculations in a single pass O(N).",
+        theory: "Post-order bottom-up aggregation avoiding O(N^2) duplicate depth queries.",
+        coding: "Maximum Depth of Binary Tree, Balanced Binary Tree, Diameter of Binary Tree.",
+        review: "Ensure diameter calculation updates global max using leftHeight + rightHeight.",
+        problems: [
+          { name: "Maximum Depth of Binary Tree", diff: "Easy", solved: false },
+          { name: "Diameter of Binary Tree", diff: "Easy", solved: false },
+          { name: "Balanced Binary Tree", diff: "Easy", solved: false }
+        ],
+        snippet: `int diameter = 0;\nint height(TreeNode* node) {\n    if (!node) return 0;\n    int lh = height(node->left);\n    int rh = height(node->right);\n    diameter = max(diameter, lh + rh);\n    return 1 + max(lh, rh);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 45, phaseId: 4, week: 7,
+        title: "Tree Path & Ancestry: LCA & Max Path Sum",
+        goal: "Master Lowest Common Ancestor (LCA) and arbitrary node path computations.",
+        theory: "Recursive state aggregation: node can return single branch sum while updating cross path.",
+        coding: "Lowest Common Ancestor of Binary Tree, Binary Tree Maximum Path Sum.",
+        review: "Handle negative numbers by clamping branch contributions to 0: max(0, branchSum).",
+        problems: [
+          { name: "Lowest Common Ancestor of a Binary Tree", diff: "Medium", solved: false },
+          { name: "Binary Tree Maximum Path Sum", diff: "Hard", solved: false }
+        ],
+        snippet: `TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n    if (!root || root == p || root == q) return root;\n    TreeNode* left = lowestCommonAncestor(root->left, p, q);\n    TreeNode* right = lowestCommonAncestor(root->right, p, q);\n    if (left && right) return root;\n    return left ? left : right;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 46, phaseId: 4, week: 7,
+        title: "Tree Construction & Serialization",
+        goal: "Rebuild trees from traversal arrays; serialize and deserialize binary trees.",
+        theory: "Why Preorder + Inorder uniquely builds a tree with distinct values, but Pre + Post cannot.",
+        coding: "Construct Tree from Preorder and Inorder Traversal, Serialize and Deserialize.",
+        review: "Accelerate Inorder lookup by preprocessing values into an unordered_map<val, index>.",
+        problems: [
+          { name: "Construct Binary Tree from Preorder and Inorder", diff: "Medium", solved: false },
+          { name: "Serialize and Deserialize Binary Tree", diff: "Hard", solved: false }
+        ],
+        snippet: `// Build tree index map\nunordered_map<int, int> inMap;\nTreeNode* build(vector<int>& pre, int preL, int preR, int inL, int inR) {\n    if (preL > preR || inL > inR) return nullptr;\n    TreeNode* root = new TreeNode(pre[preL]);\n    int inRoot = inMap[root->val];\n    int numsLeft = inRoot - inL;\n    root->left = build(pre, preL + 1, preL + numsLeft, inL, inRoot - 1);\n    root->right = build(pre, preL + numsLeft + 1, preR, inRoot + 1, inR);\n    return root;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 47, phaseId: 4, week: 7,
+        title: "Binary Search Trees (BST): Properties & Validation",
+        goal: "Leverage BST inorder sorting invariant and range validation (minBound, maxBound).",
+        theory: "Why checking only immediate children (node->left->val < node->val) is incorrect.",
+        coding: "Validate Binary Search Tree, Lowest Common Ancestor of a BST, Inorder Successor in BST.",
+        review: "Use long long bounds (-INF, +INF) to handle INT_MIN and INT_MAX node values.",
+        problems: [
+          { name: "Validate Binary Search Tree", diff: "Medium", solved: false },
+          { name: "Lowest Common Ancestor of a BST", diff: "Medium", solved: false },
+          { name: "Kth Smallest Element in a BST", diff: "Medium", solved: false }
+        ],
+        snippet: `bool isValidBST(TreeNode* root, long long minVal = -1e18, long long maxVal = 1e18) {\n    if (!root) return true;\n    if (root->val <= minVal || root->val >= maxVal) return false;\n    return isValidBST(root->left, minVal, root->val) && isValidBST(root->right, root->val, maxVal);\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 48, phaseId: 4, week: 7,
+        title: "Heaps: Implementation & Custom Comparators",
+        goal: "Understand binary heap array representation (parent i/2, children 2i, 2i+1) and sift-up/down.",
+        theory: "Build-heap complexity is O(N), while inserting N elements individually is O(N log N).",
+        coding: "Build min-heap from scratch with heapify; top-k elements in data streams.",
+        review: "Review C++ custom functor for priority_queue.",
+        problems: [
+          { name: "Kth Largest Element in a Stream", diff: "Easy", solved: false },
+          { name: "Sort Characters By Frequency", diff: "Medium", solved: false }
+        ],
+        snippet: `void heapify(vector<int>& arr, int n, int i) {\n    int largest = i, l = 2*i + 1, r = 2*i + 2;\n    if (l < n && arr[l] > arr[largest]) largest = l;\n    if (r < n && arr[r] > arr[largest]) largest = r;\n    if (largest != i) {\n        swap(arr[i], arr[largest]);\n        heapify(arr, n, largest);\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 49, phaseId: 4, week: 7,
+        title: "Advanced Heaps: Two Heaps & Median Stream",
+        goal: "Maintain balanced max-heap and min-heap to obtain running medians in O(1).",
+        theory: "Maintaining heap size invariants (left.size() == right.size() or left.size() == right.size() + 1).",
+        coding: "Find Median from Data Stream, Merge k Sorted Lists.",
+        review: "Avoid unnecessary rebalancing operations.",
+        problems: [
+          { name: "Find Median from Data Stream", diff: "Hard", solved: false },
+          { name: "Merge k Sorted Lists", diff: "Hard", solved: false }
+        ],
+        snippet: `priority_queue<int> maxHeap; // stores lower half\npriority_queue<int, vector<int>, greater<int>> minHeap; // stores upper half\nvoid addNum(int num) {\n    maxHeap.push(num);\n    minHeap.push(maxHeap.top()); maxHeap.pop();\n    if (minHeap.size() > maxHeap.size()) {\n        maxHeap.push(minHeap.top()); minHeap.pop();\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 50, phaseId: 4, week: 8,
+        title: "Tries (Prefix Trees): Construction & Auto-Complete",
+        goal: "Master prefix matching, dictionary insertion, search, and startsWith in O(L).",
+        theory: "TrieNode array children[26] vs hash map; memory footprint analysis.",
+        coding: "Implement Trie (Prefix Tree), Design Add and Search Words Data Structure.",
+        review: "Ensure clean destructor implementation or static pool allocation to avoid leaks.",
+        problems: [
+          { name: "Implement Trie (Prefix Tree)", diff: "Medium", solved: false },
+          { name: "Design Add and Search Words Data Structure", diff: "Medium", solved: false }
+        ],
+        snippet: `struct TrieNode {\n    TrieNode* children[26] = {nullptr};\n    bool isEnd = false;\n};\nvoid insert(TrieNode* root, const string& word) {\n    TrieNode* node = root;\n    for (char c : word) {\n        int idx = c - 'a';\n        if (!node->children[idx]) node->children[idx] = new TrieNode();\n        node = node->children[idx];\n    }\n    node->isEnd = true;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 51, phaseId: 4, week: 8,
+        title: "Tries: Bitwise Operations & Max XOR Queries",
+        goal: "Master 31-bit binary Trie to compute maximum XOR of two numbers in O(32 * N).",
+        theory: "Greedy bit picking: to maximize XOR at bit i, branch to (1 - bit) if present.",
+        coding: "Maximum XOR of Two Numbers in an Array, Maximum XOR With an Element From Array.",
+        review: "Coordinate bit representation from MSB (bit 31) down to LSB (bit 0).",
+        problems: [
+          { name: "Maximum XOR of Two Numbers in an Array", diff: "Medium", solved: false },
+          { name: "Maximum XOR With an Element From Array", diff: "Hard", solved: false }
+        ],
+        snippet: `// Bitwise Trie\nstruct Node { Node* next[2] = {nullptr}; };\nvoid insertBit(Node* root, int num) {\n    Node* curr = root;\n    for (int i = 31; i >= 0; --i) {\n        int bit = (num >> i) & 1;\n        if (!curr->next[bit]) curr->next[bit] = new Node();\n        curr = curr->next[bit];\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+
+      // PHASE 5: Graphs & Disjoint Set Union (Days 57 to 70)
+      {
+        day: 57, phaseId: 5, week: 9,
+        title: "Graph Representations & Breadth-First Search (BFS)",
+        goal: "Master adjacency list representation, BFS queue traversal, and level tracking.",
+        theory: "Time complexity O(V + E), space O(V); queue level progression guarantees shortest paths on unweighted graphs.",
+        coding: "Number of Islands, Rotting Oranges, 01 Matrix.",
+        review: "Always mark nodes visited when pushing into queue, NOT when popping!",
+        problems: [
+          { name: "Number of Islands", diff: "Medium", solved: false },
+          { name: "Rotting Oranges", diff: "Medium", solved: false },
+          { name: "01 Matrix", diff: "Medium", solved: false }
+        ],
+        snippet: `// Standard BFS Template\nqueue<int> q;\nq.push(src);\nvisited[src] = true; // Mark on push!\nwhile (!q.empty()) {\n    int u = q.front(); q.pop();\n    for (int v : adj[u]) {\n        if (!visited[v]) {\n            visited[v] = true;\n            q.push(v);\n        }\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 58, phaseId: 5, week: 9,
+        title: "Depth-First Search (DFS) & Connected Components",
+        goal: "Master recursion in graphs, component counting, and cycle detection.",
+        theory: "Cycle detection: 3-color states (0=unvisited, 1=visiting, 2=visited) for directed graphs.",
+        coding: "Surrounded Regions, Clone Graph, Course Schedule I (Cycle detection).",
+        review: "Distinguish between cycle detection in undirected graphs (parent check) vs directed graphs (visiting back-edge).",
+        problems: [
+          { name: "Surrounded Regions", diff: "Medium", solved: false },
+          { name: "Clone Graph", diff: "Medium", solved: false },
+          { name: "Course Schedule", diff: "Medium", solved: false }
+        ],
+        snippet: `// Directed Graph Cycle Detection via 3-color DFS\nbool hasCycle(int u, vector<int>& color, vector<vector<int>>& adj) {\n    color[u] = 1; // visiting\n    for (int v : adj[u]) {\n        if (color[v] == 1) return true; // Back edge found!\n        if (color[v] == 0 && hasCycle(v, color, adj)) return true;\n    }\n    color[u] = 2; // finished\n    return false;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 59, phaseId: 5, week: 9,
+        title: "Topological Sort & Kahn's Algorithm",
+        goal: "Master DAG linear ordering using in-degree array and queue.",
+        theory: "If topological sort fails to process all V nodes, the graph contains a directed cycle.",
+        coding: "Course Schedule II, Alien Dictionary.",
+        review: "Trace how indegree == 0 nodes simulate tasks with no remaining prerequisites.",
+        problems: [
+          { name: "Course Schedule II", diff: "Medium", solved: false },
+          { name: "Alien Dictionary (LeetCode 269)", diff: "Hard", solved: false }
+        ],
+        snippet: `// Kahn's Algorithm\nvector<int> indegree(n, 0);\nfor (int u = 0; u < n; ++u) for (int v : adj[u]) indegree[v]++;\nqueue<int> q;\nfor (int i = 0; i < n; ++i) if (indegree[i] == 0) q.push(i);\nvector<int> order;\nwhile (!q.empty()) {\n    int u = q.front(); q.pop();\n    order.push_back(u);\n    for (int v : adj[u]) if (--indegree[v] == 0) q.push(v);\n}\nif (order.size() != n) /* Cycle detected */ ;`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 60, phaseId: 5, week: 9,
+        title: "Bipartite Graph & Graph Coloring",
+        goal: "Detect odd-length cycles by 2-coloring graphs with BFS / DFS.",
+        theory: "A graph is bipartite if and only if it contains no odd cycles.",
+        coding: "Is Graph Bipartite?, Possible Bipartition.",
+        review: "Remember disconnected components: loop outer index 0 to V-1.",
+        problems: [
+          { name: "Is Graph Bipartite?", diff: "Medium", solved: false },
+          { name: "Possible Bipartition", diff: "Medium", solved: false }
+        ],
+        snippet: `bool isBipartite(vector<vector<int>>& graph) {\n    int n = graph.size();\n    vector<int> color(n, -1);\n    for (int i = 0; i < n; ++i) {\n        if (color[i] != -1) continue;\n        queue<int> q; q.push(i); color[i] = 0;\n        while (!q.empty()) {\n            int u = q.front(); q.pop();\n            for (int v : graph[u]) {\n                if (color[v] == -1) { color[v] = 1 - color[u]; q.push(v); }\n                else if (color[v] == color[u]) return false;\n            }\n        }\n    }\n    return true;\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 65, phaseId: 5, week: 10,
+        title: "Disjoint Set Union (DSU / Union-Find)",
+        goal: "Master path compression and union by rank / size for near O(1) inverse Ackermann α(N).",
+        theory: "Why simple union without rank degrades to O(N); path compression implementation.",
+        coding: "Number of Operations to Make Network Connected, Redundant Connection, Accounts Merge.",
+        review: "Implement clean DSU struct with find() and unite().",
+        problems: [
+          { name: "Redundant Connection", diff: "Medium", solved: false },
+          { name: "Number of Operations to Make Network Connected", diff: "Medium", solved: false },
+          { name: "Accounts Merge", diff: "Medium", solved: false }
+        ],
+        snippet: `struct DSU {\n    vector<int> parent, rank;\n    DSU(int n) : parent(n), rank(n, 0) {\n        iota(parent.begin(), parent.end(), 0);\n    }\n    int find(int i) {\n        if (parent[i] == i) return i;\n        return parent[i] = find(parent[i]); // Path compression\n    }\n    bool unite(int i, int j) {\n        int rootI = find(i), rootJ = find(j);\n        if (rootI == rootJ) return false;\n        if (rank[rootI] < rank[rootJ]) swap(rootI, rootJ);\n        parent[rootJ] = rootI;\n        if (rank[rootI] == rank[rootJ]) rank[rootI]++;\n        return true;\n    }\n};`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 68, phaseId: 5, week: 10,
+        title: "Dijkstra's Algorithm & Shortest Path",
+        goal: "Master single-source shortest paths on non-negative weighted graphs in O((V + E) log V).",
+        theory: "Greedy choice property of Dijkstra; why it fails on negative weight edges.",
+        coding: "Network Delay Time, Path with Maximum Probability, Cheapest Flights Within K Stops.",
+        review: "Always skip popped pairs if d > dist[u]: if (d > dist[u]) continue.",
+        problems: [
+          { name: "Network Delay Time", diff: "Medium", solved: false },
+          { name: "Cheapest Flights Within K Stops (Bellman-Ford variant)", diff: "Medium", solved: false }
+        ],
+        snippet: `vector<int> dist(n, 1e9);\ndist[src] = 0;\npriority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;\npq.push({0, src});\nwhile (!pq.empty()) {\n    auto [d, u] = pq.top(); pq.pop();\n    if (d > dist[u]) continue;\n    for (auto& [v, w] : adj[u]) {\n        if (dist[u] + w < dist[v]) {\n            dist[v] = dist[u] + w;\n            pq.push({dist[v], v});\n        }\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+
+      // PHASE 6: Dynamic Programming (Days 71 to 91)
+      {
+        day: 71, phaseId: 6, week: 11,
+        title: "1D Dynamic Programming: Transitions & Space Optimization",
+        goal: "Transition from top-down memoization to bottom-up O(1) space iterative solutions.",
+        theory: "State definition, base cases, recurrence relation, space optimization from O(N) to O(1).",
+        coding: "Climbing Stairs, Frog Jump, House Robber II (circular array), Coin Change I.",
+        review: "Track how keeping previous 2 variables avoids keeping the full dp vector.",
+        problems: [
+          { name: "House Robber II (Circular)", diff: "Medium", solved: false },
+          { name: "Coin Change (Minimum coins)", diff: "Medium", solved: false },
+          { name: "Word Break", diff: "Medium", solved: false }
+        ],
+        snippet: `// Coin Change 1D DP\nvector<int> dp(amount + 1, 1e9);\ndp[0] = 0;\nfor (int i = 1; i <= amount; ++i) {\n    for (int coin : coins) {\n        if (i >= coin && dp[i - coin] != 1e9) {\n            dp[i] = min(dp[i], dp[i - coin] + 1);\n        }\n    }\n}\nreturn dp[amount] == 1e9 ? -1 : dp[amount];`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 75, phaseId: 6, week: 11,
+        title: "2D Grid DP: Paths & Obstacles",
+        goal: "Master path accumulation, min/max path sum, and 2-row rolling array optimization.",
+        theory: "dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j].",
+        coding: "Unique Paths I & II, Minimum Path Sum, Triangle.",
+        review: "Practice optimizing 2D matrix DP to a single 1D vector of size columns.",
+        problems: [
+          { name: "Unique Paths II (With Obstacles)", diff: "Medium", solved: false },
+          { name: "Minimum Path Sum", diff: "Medium", solved: false },
+          { name: "Dungeon Game", diff: "Hard", solved: false }
+        ],
+        snippet: `// 1D Rolling Array for Unique Paths\nvector<int> dp(n, 1);\nfor (int i = 1; i < m; ++i) {\n    for (int j = 1; j < n; ++j) {\n        dp[j] += dp[j - 1];\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 79, phaseId: 6, week: 12,
+        title: "Knapsack Patterns: 0/1 Knapsack & Target Sum",
+        goal: "Master include/exclude state transition and reverse iteration for 1D arrays.",
+        theory: "Why 0/1 knapsack requires iterating weights backwards, while unbounded iterates forwards.",
+        coding: "Partition Equal Subset Sum, Target Sum, Ones and Zeroes.",
+        review: "Derive target sum conversion into subset sum: (totalSum + target) / 2.",
+        problems: [
+          { name: "Partition Equal Subset Sum", diff: "Medium", solved: false },
+          { name: "Target Sum", diff: "Medium", solved: false },
+          { name: "Coin Change II (Combinations count)", diff: "Medium", solved: false }
+        ],
+        snippet: `// 0/1 Knapsack 1D Array (Reverse loop prevents reusing same item)\nvector<bool> dp(target + 1, false);\ndp[0] = true;\nfor (int num : nums) {\n    for (int w = target; w >= num; --w) {\n        dp[w] = dp[w] || dp[w - num];\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 83, phaseId: 6, week: 12,
+        title: "DP on Strings: LCS & Edit Distance",
+        goal: "Master Longest Common Subsequence (LCS) grid and minimum edit operations.",
+        theory: "State definition dp[i][j] representing s1[0..i-1] and s2[0..j-1].",
+        coding: "Longest Common Subsequence, Edit Distance, Distinct Subsequences.",
+        review: "Trace the 3 operations of Edit Distance (insert, delete, replace).",
+        problems: [
+          { name: "Longest Common Subsequence", diff: "Medium", solved: false },
+          { name: "Edit Distance", diff: "Hard", solved: false },
+          { name: "Longest Palindromic Subsequence", diff: "Medium", solved: false }
+        ],
+        snippet: `// Edit Distance\nvector<vector<int>> dp(m + 1, vector<int>(n + 1));\nfor (int i = 0; i <= m; i++) dp[i][0] = i;\nfor (int j = 0; j <= n; j++) dp[0][j] = j;\nfor (int i = 1; i <= m; i++) {\n    for (int j = 1; j <= n; j++) {\n        if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1];\n        else dp[i][j] = 1 + min({dp[i-1][j], dp[i][j-1], dp[i-1][j-1]});\n    }\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 87, phaseId: 6, week: 13,
+        title: "Longest Increasing Subsequence (LIS) in O(N log N)",
+        goal: "Master patient sorting and lower_bound tails array technique.",
+        theory: "Why tails array maintains smallest tail of all increasing subsequences of length i+1.",
+        coding: "Longest Increasing Subsequence, Russian Doll Envelopes.",
+        review: "Understand why tails array does not necessarily contain the actual LIS, only its correct length.",
+        problems: [
+          { name: "Longest Increasing Subsequence", diff: "Medium", solved: false },
+          { name: "Russian Doll Envelopes", diff: "Hard", solved: false }
+        ],
+        snippet: `// O(N log N) LIS\nvector<int> tails;\nfor (int x : nums) {\n    auto it = lower_bound(tails.begin(), tails.end(), x);\n    if (it == tails.end()) tails.push_back(x);\n    else *it = x;\n}\nreturn tails.size();`,
+        status: "PENDING", notes: ""
+      },
+
+      // PHASE 7: Advanced / Hard & Mock Sprints (Days 92 to 105)
+      {
+        day: 92, phaseId: 7, week: 14,
+        title: "Disjoint Sets & Segment Trees Primer",
+        goal: "Understand Segment Tree range queries and point updates in O(log N).",
+        theory: "Segment Tree 4*N array representation, combine function, lazy propagation concepts.",
+        coding: "Range Sum Query - Mutable, Range Minimum Query.",
+        review: "Compare Segment Tree vs Binary Indexed Tree (Fenwick).",
+        problems: [
+          { name: "Range Sum Query - Mutable", diff: "Medium", solved: false },
+          { name: "Count of Smaller Numbers After Self", diff: "Hard", solved: false }
+        ],
+        snippet: `// Segment Tree Build\nvoid build(int node, int l, int r) {\n    if (l == r) { tree[node] = arr[l]; return; }\n    int mid = (l + r) / 2;\n    build(2*node, l, mid);\n    build(2*node+1, mid+1, r);\n    tree[node] = tree[2*node] + tree[2*node+1];\n}`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 96, phaseId: 7, week: 14,
+        title: "Blind 75 Speed Run: Linear & Hash Sets",
+        goal: "Simulate FAANG technical screen: solve 3 Mediums in 45 minutes with optimal communication.",
+        theory: "Verbalizing trade-offs, test case walk-through before writing code.",
+        coding: "Timed blind problem solving: Two Sum, 3Sum, Product of Array Except Self.",
+        review: "Grade your explanation clarity and edge case identification speed.",
+        problems: [
+          { name: "Product of Array Except Self", diff: "Medium", solved: false },
+          { name: "Encode and Decode Strings", diff: "Medium", solved: false }
+        ],
+        snippet: `// Practice concise, professional variable names and clear function contracts.`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 100, phaseId: 7, week: 15,
+        title: "System Mock Interview: Trees & Graphs",
+        goal: "End-to-end interview simulation under timed pressure.",
+        theory: "Handling vague problem prompts; proactively asking clarifying questions.",
+        coding: "Word Ladder I & II, Alien Dictionary, Course Schedule.",
+        review: "Review complexity defense and defensive programming techniques.",
+        problems: [
+          { name: "Word Ladder", diff: "Hard", solved: false },
+          { name: "Word Ladder II", diff: "Hard", solved: false }
+        ],
+        snippet: `// Full Mock Interview Evaluation Checklist:\n// 1. Clarified constraints & empty/negative inputs?\n// 2. Outlined brute force + optimal Big-O before coding?\n// 3. Clean syntax without compiler warnings?\n// 4. Manual dry run on a sample testcase?`,
+        status: "PENDING", notes: ""
+      },
+      {
+        day: 105, phaseId: 7, week: 15,
+        title: "Final Graduation & Deep Mastery Verification",
+        goal: "Complete a full 6-hour endurance contest covering hard Dynamic Programming and Graph queries.",
+        theory: "Final retrospective across the 630 hours invested.",
+        coding: "Solve 4 unseen Hard-level algorithmic problems.",
+        review: "Export your final roadmap and commit code repository templates for ongoing maintenance.",
+        problems: [
+          { name: "Trapping Rain Water II (Priority Queue on 2D Grid)", diff: "Hard", solved: false },
+          { name: "Burst Balloons (Interval DP)", diff: "Hard", solved: false },
+          { name: "Sliding Window Median (Dual Multiset / Heaps)", diff: "Hard", solved: false }
+        ],
+        snippet: `// Congratulations! You have completed 105 days of rigorous 6-hour daily DSA grinding.\n// You are now fully interview-ready across any top-tier tech bar.`,
+        status: "PENDING", notes: ""
+      }
+    ];
+
+    // In-memory application state
+    let state = {
+      days: curriculumDays,
+      activePhaseFilter: 0, // 0 = All
+      activeStatusFilter: 'ALL',
+      searchQuery: '',
+      currentModalDay: null,
+      timer: {
+        totalSeconds: 120 * 60,
+        remainingSeconds: 120 * 60,
+        isRunning: false,
+        intervalId: null
+      }
+    };
+
+    const STORAGE_KEY = 'dsaTrackerProgress_v1';
+
+    // Pull only the mutable fields (status/notes/solved flags) out of a day.
+    function extractProgress(days) {
+      return days.map(d => ({
+        day: d.day,
+        status: d.status,
+        notes: d.notes,
+        solved: d.problems.map(p => p.solved)
+      }));
+    }
+
+    // Merge saved progress back onto the curriculum data by day number,
+    // so curriculum content edits never get clobbered by old saved state.
+    function applyProgress(days, saved) {
+      if (!Array.isArray(saved)) return;
+      const byDay = new Map(saved.map(s => [s.day, s]));
+      days.forEach(d => {
+        const s = byDay.get(d.day);
+        if (!s) return;
+        if (s.status) d.status = s.status;
+        if (typeof s.notes === 'string') d.notes = s.notes;
+        if (Array.isArray(s.solved)) {
+          d.problems.forEach((p, i) => {
+            if (typeof s.solved[i] === 'boolean') p.solved = s.solved[i];
+          });
+        }
+      });
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(extractProgress(state.days)));
+      } catch (err) {
+        console.error('Could not save progress to localStorage:', err);
+      }
+    }
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        applyProgress(state.days, JSON.parse(raw));
+      } catch (err) {
+        console.error('Could not load saved progress:', err);
+      }
+    }
+
+    function updateHeaderStats() {
+      const totalDays = state.days.length;
+      const totalHours = totalDays * 6;
+      let totalProblems = 0;
+      state.days.forEach(d => totalProblems += d.problems.length);
+
+      document.getElementById('headerSubtitle').textContent =
+        `15-Week Roadmap • ${totalDays} Curated Deep-Dive Days • ${totalHours} Authored Study Hours`;
+      document.getElementById('totalDaysLabel').textContent = totalDays;
+      document.getElementById('totalHoursLabel').textContent = totalHours;
+      document.getElementById('totalProblemsLabel').textContent = totalProblems;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProgress();
+      updateHeaderStats();
+      initPhasePills();
+      renderDays();
+      updateAnalytics();
+      setupEventListeners();
+    });
+
+    function initPhasePills() {
+      const container = document.getElementById('phasePillsContainer');
+      container.innerHTML = `
+        <button class="phase-pill active shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition-all" data-phase="0">
+          All Phases (15 Wks)
+        </button>
+      `;
+
+      phasesData.forEach(phase => {
+        const btn = document.createElement('button');
+        btn.className = "phase-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 transition-all";
+        btn.dataset.phase = phase.id;
+        btn.textContent = `P${phase.id}: ${phase.title.split(':')[1] || phase.title}`;
+        container.appendChild(btn);
+      });
+    }
+
+    function renderDays() {
+      const grid = document.getElementById('daysGrid');
+      const emptyState = document.getElementById('noResultsState');
+      grid.innerHTML = '';
+
+      const filtered = state.days.filter(item => {
+        // Phase match
+        if (state.activePhaseFilter !== 0 && item.phaseId !== state.activePhaseFilter) return false;
+        // Status match
+        if (state.activeStatusFilter !== 'ALL' && item.status !== state.activeStatusFilter) return false;
+        // Search query
+        if (state.searchQuery.trim() !== '') {
+          const q = state.searchQuery.toLowerCase();
+          const matchesTitle = item.title.toLowerCase().includes(q);
+          const matchesGoal = item.goal.toLowerCase().includes(q);
+          const matchesProblem = item.problems.some(p => p.name.toLowerCase().includes(q));
+          if (!matchesTitle && !matchesGoal && !matchesProblem) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        const isMastered = item.status === 'COMPLETED';
+        const isInProgress = item.status === 'IN_PROGRESS';
+
+        let borderClass = 'border-slate-800/80 hover:border-slate-700';
+        let badgeBg = 'bg-slate-800 text-slate-400';
+        let badgeText = 'Pending';
+
+        if (isMastered) {
+          borderClass = 'border-emerald-500/40 bg-emerald-950/10 hover:border-emerald-500/60';
+          badgeBg = 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+          badgeText = 'Mastered';
+        } else if (isInProgress) {
+          borderClass = 'border-amber-500/40 bg-amber-950/10 hover:border-amber-500/60';
+          badgeBg = 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+          badgeText = 'In Progress';
+        }
+
+        card.className = `glass-panel rounded-2xl p-5 border ${borderClass} transition-all duration-200 hover:-translate-y-0.5 flex flex-col justify-between cursor-pointer group`;
+        card.onclick = () => openDayModal(item.day);
+
+        // Problem tags
+        const solvedCount = item.problems.filter(p => p.solved).length;
+        const totalProblems = item.problems.length;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">
+                  Day ${item.day}
+                </span>
+                <span class="text-[11px] text-slate-500 font-medium">W${item.week} • 6 hrs</span>
+              </div>
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${badgeBg}">
+                ${badgeText}
+              </span>
+            </div>
+
+            <h3 class="text-sm font-bold text-slate-100 mt-3 group-hover:text-indigo-400 transition-colors leading-snug">
+              ${item.title}
+            </h3>
+            
+            <p class="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
+              ${item.goal}
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/60 space-y-1.5">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="text-slate-400">Core Problems:</span>
+                <span class="font-mono ${solvedCount === totalProblems && totalProblems > 0 ? 'text-emerald-400' : 'text-slate-300'}">
+                  ${solvedCount}/${totalProblems} Solved
+                </span>
+              </div>
+              
+              <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-indigo-500 h-full rounded-full" style="width: ${totalProblems ? (solvedCount / totalProblems) * 100 : 0}%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 flex items-center justify-between text-[11px] text-indigo-400 font-medium border-t border-slate-800/40">
+            <span>View 6-Hour Blueprint</span>
+            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function updateAnalytics() {
+      const totalDays = state.days.length;
+      const completedDays = state.days.filter(d => d.status === 'COMPLETED').length;
+      const inProgressDays = state.days.filter(d => d.status === 'IN_PROGRESS').length;
+      
+      const percentage = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
+      
+      // Update DOM
+      document.getElementById('progressPercentage').textContent = `${percentage}%`;
+      document.getElementById('completedDaysCount').textContent = completedDays;
+      document.getElementById('progressBar').style.width = `${percentage}%`;
+      
+      // Hours logged (each completed day = 6h, each in-progress = 3h)
+      const hours = (completedDays * 6) + (inProgressDays * 3);
+      document.getElementById('totalHoursLogged').textContent = hours;
+
+      // Problems statistics
+      let easy = 0, med = 0, hard = 0, totalSolved = 0;
+      state.days.forEach(d => {
+        d.problems.forEach(p => {
+          if (p.solved) {
+            totalSolved++;
+            if (p.diff === 'Easy') easy++;
+            if (p.diff === 'Medium') med++;
+            if (p.diff === 'Hard') hard++;
+          }
+        });
+      });
+
+      document.getElementById('solvedProblemsCount').textContent = totalSolved;
+      document.getElementById('easyCount').textContent = easy;
+      document.getElementById('medCount').textContent = med;
+      document.getElementById('hardCount').textContent = hard;
+
+      // Active phase identification
+      const firstUnfinished = state.days.find(d => d.status !== 'COMPLETED');
+      if (firstUnfinished) {
+        const phaseObj = phasesData.find(p => p.id === firstUnfinished.phaseId);
+        if (phaseObj) {
+          document.getElementById('activePhaseBadge').textContent = `Phase ${phaseObj.id}`;
+          document.getElementById('activePhaseName').textContent = phaseObj.title;
+          document.getElementById('activePhasePace').textContent = `${phaseObj.weeks} • ${phaseObj.daysRange}`;
+        }
+      }
+    }
+
+    function openDayModal(dayNum) {
+      const dayData = state.days.find(d => d.day === dayNum);
+      if (!dayData) return;
+      state.currentModalDay = dayData;
+
+      const phase = phasesData.find(p => p.id === dayData.phaseId);
+
+      document.getElementById('modalDayNumber').textContent = `Day ${dayData.day}`;
+      document.getElementById('modalPhaseTag').textContent = phase ? phase.title : `Phase ${dayData.phaseId}`;
+      document.getElementById('modalDayTitle').textContent = dayData.title;
+      document.getElementById('modalDayGoal').textContent = dayData.goal;
+      
+      document.getElementById('modalTheorySchedule').textContent = dayData.theory || "Study internal concepts and dry-run state transitions.";
+      document.getElementById('modalCodingSchedule').textContent = dayData.coding || "Solve curated problems using clean, self-written C++ code.";
+      document.getElementById('modalReviewSchedule').textContent = dayData.review || "Write reflection notes, analyze edge cases and Big-O efficiency.";
+
+      document.getElementById('modalCodeSnippet').textContent = dayData.snippet || "// Standard C++ pattern";
+      document.getElementById('modalNotesTextarea').value = dayData.notes || "";
+      document.getElementById('modalStatusSelect').value = dayData.status || "PENDING";
+
+      // Render problem list inside modal
+      const probContainer = document.getElementById('modalProblemsList');
+      probContainer.innerHTML = '';
+      
+      dayData.problems.forEach((p, idx) => {
+        let diffColor = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
+        if (p.diff === 'Medium') diffColor = 'text-amber-400 bg-amber-500/10 border-amber-500/20';
+        if (p.diff === 'Hard') diffColor = 'text-rose-400 bg-rose-500/10 border-rose-500/20';
+
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-2.5 rounded-xl bg-slate-950/70 border border-slate-800';
+        row.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <input type="checkbox" id="prob_${idx}" ${p.solved ? 'checked' : ''} 
+              class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+            <label for="prob_${idx}" class="text-xs font-medium text-slate-200 cursor-pointer select-none">
+              ${p.name}
+            </label>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded border ${diffColor}">
+            ${p.diff}
+          </span>
+        `;
+
+        const chk = row.querySelector('input');
+        chk.addEventListener('change', (e) => {
+          p.solved = e.target.checked;
+          // Auto-suggest completion if all problems solved
+          const allDone = dayData.problems.every(x => x.solved);
+          if (allDone && dayData.status !== 'COMPLETED') {
+            document.getElementById('modalStatusSelect').value = 'COMPLETED';
+          }
+          saveProgress();
+          updateAnalytics();
+        });
+
+        probContainer.appendChild(row);
+      });
+
+      document.getElementById('dayModal').classList.remove('hidden');
+    }
+
+    function closeDayModal() {
+      document.getElementById('dayModal').classList.add('hidden');
+      state.currentModalDay = null;
+    }
+
+    function setupTimer() {
+      const display = document.getElementById('timerDisplay');
+      const headerDisplay = document.getElementById('headerTimerDisplay');
+      
+      function formatTime(totalSeconds) {
+        const hrs = Math.floor(totalSeconds / 3600);
+        const mins = Math.floor((totalSeconds % 3600) / 60);
+        const secs = totalSeconds % 60;
+        return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+
+      function updateDisplay() {
+        const str = formatTime(state.timer.remainingSeconds);
+        display.textContent = str;
+        headerDisplay.textContent = str;
+      }
+
+      document.getElementById('startTimerBtn').addEventListener('click', () => {
+        if (state.timer.isRunning) return;
+        state.timer.isRunning = true;
+        state.timer.intervalId = setInterval(() => {
+          if (state.timer.remainingSeconds > 0) {
+            state.timer.remainingSeconds--;
+            updateDisplay();
+          } else {
+            clearInterval(state.timer.intervalId);
+            state.timer.isRunning = false;
+            showToast("Time's up! Great focus session. Take a mindful break.");
+          }
+        }, 1000);
+      });
+
+      document.getElementById('pauseTimerBtn').addEventListener('click', () => {
+        if (state.timer.isRunning) {
+          clearInterval(state.timer.intervalId);
+          state.timer.isRunning = false;
+        }
+      });
+
+      document.getElementById('resetTimerBtn').addEventListener('click', () => {
+        clearInterval(state.timer.intervalId);
+        state.timer.isRunning = false;
+        state.timer.remainingSeconds = state.timer.totalSeconds;
+        updateDisplay();
+      });
+
+      // Mode switch buttons
+      document.querySelectorAll('.timer-mode-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.timer-mode-btn').forEach(b => {
+            b.classList.remove('bg-indigo-600', 'text-white');
+            b.classList.add('bg-slate-800', 'text-slate-300');
+          });
+          btn.classList.add('bg-indigo-600', 'text-white');
+          btn.classList.remove('bg-slate-800', 'text-slate-300');
+
+          const mins = parseInt(btn.dataset.minutes, 10);
+          state.timer.totalSeconds = mins * 60;
+          state.timer.remainingSeconds = mins * 60;
+          
+          if (mins === 120) {
+            document.getElementById('timerCurrentLabel').textContent = "Block 1: Deep Theory";
+          } else if (mins === 50) {
+            document.getElementById('timerCurrentLabel').textContent = "Focused Problem Solving";
+          } else {
+            document.getElementById('timerCurrentLabel').textContent = "Rest & Hydration";
+          }
+
+          if (state.timer.isRunning) {
+            clearInterval(state.timer.intervalId);
+            state.timer.isRunning = false;
+          }
+          updateDisplay();
+        });
+      });
+
+      updateDisplay();
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3500);
+    }
+
+    function setupEventListeners() {
+      // Phase Filter Pills
+      document.getElementById('phasePillsContainer').addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        
+        document.querySelectorAll('.phase-pill').forEach(b => {
+          b.classList.remove('active', 'bg-indigo-600', 'text-white');
+          b.classList.add('bg-slate-900', 'text-slate-400');
+        });
+        btn.classList.add('active', 'bg-indigo-600', 'text-white');
+        btn.classList.remove('bg-slate-900', 'text-slate-400');
+
+        state.activePhaseFilter = parseInt(btn.dataset.phase, 10);
+        renderDays();
+      });
+
+      // Status Filter
+      document.getElementById('statusFilter').addEventListener('change', (e) => {
+        state.activeStatusFilter = e.target.value;
+        renderDays();
+      });
+
+      // Search Filter
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        renderDays();
+      });
+
+      // Modal Buttons
+      document.getElementById('closeModalBtn').addEventListener('click', closeDayModal);
+      
+      document.getElementById('dayModal').addEventListener('click', (e) => {
+        if (e.target.id === 'dayModal') closeDayModal();
+      });
+
+      document.getElementById('saveDayModalBtn').addEventListener('click', () => {
+        if (!state.currentModalDay) return;
+        
+        state.currentModalDay.status = document.getElementById('modalStatusSelect').value;
+        state.currentModalDay.notes = document.getElementById('modalNotesTextarea').value;
+
+        saveProgress();
+        renderDays();
+        updateAnalytics();
+        closeDayModal();
+        showToast(`Saved Day ${state.currentModalDay.day} progress.`);
+      });
+
+      // Copy Code Snippet — modern clipboard API with a legacy fallback
+      document.getElementById('copySnippetBtn').addEventListener('click', async () => {
+        const text = document.getElementById('modalCodeSnippet').textContent;
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            temp.style.position = 'fixed';
+            temp.style.opacity = '0';
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+          }
+          showToast("Code snippet copied to clipboard!");
+        } catch (err) {
+          showToast("Copy failed — select and copy the snippet manually.");
+        }
+      });
+
+      // Focus Timer Toggle
+      document.getElementById('toggleTimerBtn').addEventListener('click', () => {
+        const drawer = document.getElementById('focusTimerDrawer');
+        drawer.classList.toggle('hidden');
+      });
+
+      document.getElementById('closeTimerDrawerBtn').addEventListener('click', () => {
+        document.getElementById('focusTimerDrawer').classList.add('hidden');
+      });
+
+      // Export Progress to JSON
+      document.getElementById('exportBtn').addEventListener('click', () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.days, null, 2));
+        const dlAnchorElem = document.createElement('a');
+        dlAnchorElem.setAttribute("href", dataStr);
+        dlAnchorElem.setAttribute("download", "dsa_mastery_progress.json");
+        dlAnchorElem.click();
+        dlAnchorElem.remove();
+        showToast("Progress successfully exported to JSON.");
+      });
+
+      // Import Progress from JSON
+      document.getElementById('importFileInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const imported = JSON.parse(event.target.result);
+            if (Array.isArray(imported)) {
+              // Support both a full day-object export and a lightweight
+              // progress-only export (day/status/notes/solved).
+              if (imported.length && 'title' in imported[0]) {
+                state.days = imported;
+              } else {
+                applyProgress(state.days, imported);
+              }
+              saveProgress();
+              updateHeaderStats();
+              renderDays();
+              updateAnalytics();
+              showToast("Progress imported successfully!");
+            } else {
+              showToast("Invalid JSON file provided.");
+            }
+          } catch (err) {
+            showToast("Invalid JSON file provided.");
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      // Reset Progress (clears localStorage + in-memory status/notes/checkmarks)
+      document.getElementById('resetProgressBtn').addEventListener('click', () => {
+        const ok = confirm("Reset ALL progress? This clears every day's status, notes, and solved checkmarks. This can't be undone.");
+        if (!ok) return;
+        state.days.forEach(d => {
+          d.status = 'PENDING';
+          d.notes = '';
+          d.problems.forEach(p => p.solved = false);
+        });
+        localStorage.removeItem(STORAGE_KEY);
+        renderDays();
+        updateAnalytics();
+        showToast("Progress reset.");
+      });
+
+      setupTimer();
+    }
+  </script>
+</body>
+</html>
